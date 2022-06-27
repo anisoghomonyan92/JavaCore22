@@ -17,7 +17,7 @@ public class BookDemo implements Commands {
             System.out.println("Please input" + PRINT_BOOKS_BY_AUTHOR_NAME + "for print books by author name");
             System.out.println("Please input" + PRINT_BOOKS_BY_GENRE + "for print books by ganre");
             System.out.println("Please input" + PRINT_BOOKS_BY_PRICE_RANGE + "for print books by price range");
-            int command = scanner.nextInt();
+            int command = Integer.parseInt(scanner.nextLine());
 
             switch (command) {
                 case EXIT:
@@ -48,12 +48,14 @@ public class BookDemo implements Commands {
 
     private static void printBooksByPriceRange() {
         System.out.println("Please input price min range");
-        double min=scanner.nextDouble();
+        String mn=scanner.nextLine();
+        double min=Double.parseDouble(mn);
 
         System.out.println("Please input price max range");
-        double max=scanner.nextDouble();
+        String mx=scanner.nextLine();
+        Double max=Double.parseDouble(mx);
 
-        bookStorage.printBooksByPriceOfRange(min,max);
+        bookStorage.printBooksByPriceOfRange( min,max);
 
       }
 
