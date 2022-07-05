@@ -1,6 +1,7 @@
 package homework.books;
 
 import homework.books.commands.Commands;
+import homework.books.exception.AuthorNotFoundException;
 import homework.books.model.Author;
 import homework.books.model.Book;
 import homework.books.storage.AuthorStorage;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 
 public class BookDemo implements Commands {
 
+
     private static Scanner scanner = new Scanner(System.in);
     private static BookStorage bookStorage = new BookStorage();
     private static AuthorStorage authorStorage = new AuthorStorage();
@@ -17,12 +19,15 @@ public class BookDemo implements Commands {
 
     public static void main(String[] args) {
 
-
         boolean run = true;
         while (run) {
             Commands.printCommands();
-            int command = Integer.parseInt(scanner.nextLine());
-
+            int command;
+            try {
+                command = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                command = -1;
+            }
             switch (command) {
                 case EXIT:
                     run = false;
@@ -59,15 +64,21 @@ public class BookDemo implements Commands {
     }
 
     private static void printBooksByPriceRange() {
-        System.out.println("Please input price min range");
+        try {
+            System.out.println("Please input price min range");
         String mn = scanner.nextLine();
         double min = Double.parseDouble(mn);
 
         System.out.println("Please input price max range");
         String mx = scanner.nextLine();
         Double max = Double.parseDouble(mx);
+            bookStorage.printBooksByPriceOfRange(min, max);
+        }catch (NumberFormatException e){
+        System.out.println("Number format does not exists");
+        printBooksByPriceRange();
+        }
 
-        bookStorage.printBooksByPriceOfRange(min, max);
+
 
     }
 
@@ -92,12 +103,8 @@ public class BookDemo implements Commands {
             bookStorage.print();
             System.out.println("Please choose author index");
             int authorIndex = Integer.parseInt(scanner.nextLine());
-            Author author = authorStorage.getAuthorByIndex(authorIndex);
-            if (author == null) {
-                System.out.println("Please input correct index");
-                addBook();
-            } else {
-
+            try {
+                Author author = authorStorage.getAuthorByIndex(authorIndex);
                 System.out.println("Please input book title");
                 String title = scanner.nextLine();
                 System.out.println("Please input book's  price ");
@@ -113,9 +120,16 @@ public class BookDemo implements Commands {
                 bookStorage.add(book);
                 System.out.println("Thank you,book added.");
 
+
+            } catch (AuthorNotFoundException e) {
+                System.out.println(e.getMessage());
+                addBook();
             }
+
+
         }
     }
+
 
     private static void addAuthor() {
         System.out.println("Please input author name");
@@ -127,10 +141,15 @@ public class BookDemo implements Commands {
         System.out.println("Please input email");
         String email = scanner.nextLine();
 
-        System.out.println("Please input gender(MALE or FEMALE)");
+        System.out.println("Please input gender ");
         String gender = scanner.nextLine();
 
         Author author = new Author(name, surname, email, gender);
+        if (author.getGender().equals("MALE") || author.getGender().equals("FAMALE")) {
+        } else {
+            System.out.println("Please input correct gender (MALE or FEMALE)");
+            String getGender = scanner.nextLine();
+        }
         authorStorage.add(author);
         System.out.println("Author created!");
     }
