@@ -4,6 +4,8 @@ import homework.books.commands.Commands;
 import homework.books.exception.AuthorNotFoundException;
 import homework.books.model.Author;
 import homework.books.model.Book;
+import homework.books.model.Gender;
+import homework.books.storage.AuthenticatorStorage;
 import homework.books.storage.AuthorStorage;
 import homework.books.storage.BookStorage;
 
@@ -15,9 +17,11 @@ public class BookDemo implements Commands {
     private static Scanner scanner = new Scanner(System.in);
     private static BookStorage bookStorage = new BookStorage();
     private static AuthorStorage authorStorage = new AuthorStorage();
+    private static AuthenticatorStorage authenticatorStorage = new AuthenticatorStorage();
 
 
     public static void main(String[] args) {
+        addAuthenticator();
 
         boolean run = true;
         while (run) {
@@ -63,21 +67,34 @@ public class BookDemo implements Commands {
         }
     }
 
+    private static void addAuthenticator() {
+        System.out.println("login");
+        String login = scanner.nextLine();
+        System.out.println("password");
+        String password = scanner.nextLine();
+
+        if (login.equals("admin") && password.equals("123456")) {
+            System.out.println("Authentication  completed");
+        } else {
+            System.out.println("Invalid login or password");
+            addAuthenticator();
+        }
+    }
+
     private static void printBooksByPriceRange() {
         try {
             System.out.println("Please input price min range");
-        String mn = scanner.nextLine();
-        double min = Double.parseDouble(mn);
+            String mn = scanner.nextLine();
+            double min = Double.parseDouble(mn);
 
-        System.out.println("Please input price max range");
-        String mx = scanner.nextLine();
-        Double max = Double.parseDouble(mx);
+            System.out.println("Please input price max range");
+            String mx = scanner.nextLine();
+            Double max = Double.parseDouble(mx);
             bookStorage.printBooksByPriceOfRange(min, max);
-        }catch (NumberFormatException e){
-        System.out.println("Number format does not exists");
-        printBooksByPriceRange();
+        } catch (NumberFormatException e) {
+            System.out.println("Number format does not exists");
+            printBooksByPriceRange();
         }
-
 
 
     }
@@ -141,16 +158,31 @@ public class BookDemo implements Commands {
         System.out.println("Please input email");
         String email = scanner.nextLine();
 
-        System.out.println("Please input gender ");
-        String gender = scanner.nextLine();
 
+        Gender gender = gender();
         Author author = new Author(name, surname, email, gender);
-        if (author.getGender().equals("MALE") || author.getGender().equals("FAMALE")) {
-        } else {
-            System.out.println("Please input correct gender (MALE or FEMALE)");
-            String getGender = scanner.nextLine();
-        }
         authorStorage.add(author);
+
         System.out.println("Author created!");
     }
+
+    private static Gender gender() {
+        do {
+            System.out.println("Select gender" );
+
+            Gender[] values = Gender.values();
+            for (Gender value : values) {
+                System.out.println(value + ",");
+            }
+            System.out.println();
+            String input = scanner.nextLine();
+
+            try {
+                return Gender.valueOf(input.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Please input correct gender (MALE or FEMALE)");
+            }
+        } while (true);
+    }
+
 }
