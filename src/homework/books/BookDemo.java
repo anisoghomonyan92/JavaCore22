@@ -167,22 +167,26 @@ public class BookDemo implements Commands {
     }
 
     private static Gender gender() {
-        do {
-            System.out.println("Select gender" );
 
-            Gender[] values = Gender.values();
-            for (Gender value : values) {
-                System.out.println(value + ",");
-            }
-            System.out.println();
-            String input = scanner.nextLine();
+        System.out.println("Select gender");
 
-            try {
-                return Gender.valueOf(input.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                System.out.println("Please input correct gender (MALE or FEMALE)");
-            }
-        } while (true);
+
+        Gender[] values = Gender.values();
+        for (Gender value : values) {
+            System.out.println(value + ",");
+        }
+        System.out.println();
+        String gender = scanner.nextLine();
+
+        try {
+            return Gender.valueOf(gender.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Please input correct gender (MALE or FEMALE)");
+            gender();
+
+        }
+
+        return Gender.valueOf(gender);
     }
 
 }
