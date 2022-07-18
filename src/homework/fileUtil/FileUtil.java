@@ -8,24 +8,32 @@ public class FileUtil {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-//        fileSearch();
+        fileSearch();
 //        contentSearch();
 //        findLines();
 //        printSizeOfPackage();
-        createFileWithContent();
+//        createFileWithContent();
 
     }
 
     static void fileSearch() {
-        System.out.println("Please input file path");
+        System.out.println("Please input package path");
         String path = scanner.nextLine();
         System.out.println("Please input fileName");
         String fileName = scanner.nextLine();
 
 
-        File myfile = new File(path, fileName);
+        File myfile = new File(path,fileName);
         System.out.println(myfile.exists());
+        recursionSearchFile(1);
 
+
+    }
+    public static int recursionSearchFile(int value){
+        if(value==1){
+            return 1;
+        }
+        return value *recursionSearchFile(value-1);
     }
 
     static void contentSearch() throws IOException {
