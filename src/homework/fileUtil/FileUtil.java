@@ -23,17 +23,30 @@ public class FileUtil {
         String fileName = scanner.nextLine();
 
 
-        File myfile = new File(path,fileName);
-        System.out.println(myfile.exists());
-        recursionSearchFile(1);
+        File myFile = new File(path, fileName);
+
+        recursionSearchFile(myFile);
 
 
     }
-    public static int recursionSearchFile(int value){
-        if(value==1){
-            return 1;
+
+    public static void recursionSearchFile(File file) {
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                for (File file1 : files) {
+                    recursionSearchFile(file1);
+
+                }
+
+            } else if (file.isFile()) {
+                System.out.println(file);
+
+            } else return;
+
         }
-        return value *recursionSearchFile(value-1);
+
+
     }
 
     static void contentSearch() throws IOException {
@@ -78,9 +91,7 @@ public class FileUtil {
             String home;
             int line = 0;
             while ((home = inputStream.readLine()) != null) {
-                if (home == "home") {
-                    line++;
-                }
+                line++;
                 if (home.contains(keyword))
                     System.out.println(line + " " + home);
             }
