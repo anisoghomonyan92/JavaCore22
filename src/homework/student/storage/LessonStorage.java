@@ -1,30 +1,26 @@
-package homework.books.storage;
+package homework.student.storage;
 
-import homework.books.model.Authenticator;
 import homework.student.exception.LessonNotFaundException;
 import homework.student.model.Lesson;
 
 
-public class AuthenticatorStorage {
-    private Authenticator[] array = new Authenticator[10];
+public class LessonStorage {
+    private Lesson[] array = new Lesson[10];
     int size = 0;
 
 
-    public void add(Authenticator authenticator) {
+    public void add(Lesson lesson) {
         if (size == array.length) {
             increaseArray();
         }
-        array[size++] = authenticator;
+        array[size++] =lesson;
 
 
     }
 
     private void increaseArray() {
-        Authenticator[] temp = new Authenticator[array.length + 10];
-        for (int i = 0; i < size; i++) {
-            temp[i] = array[i];
-
-        }
+        Lesson[] temp = new Lesson[array.length + 10];
+        System.arraycopy(array, 0, temp, 0, size);
         array = temp;
     }
 
@@ -48,11 +44,24 @@ public class AuthenticatorStorage {
 
             }
             size--;
-            System.out.println("Authenticator deleted");
+            System.out.println("Lesson deleted");
         } else {
             System.out.println("Index out of baunds");
         }
     }
+
+
+    public Lesson getLessonByIndex(int index) throws LessonNotFaundException {
+        if (index >= 0 && index < size) {
+            return array[index];
+        }else {
+            throw new LessonNotFaundException("Lesson with " + index+"index does not exists");
+        }
+
+
+    }
+
+
 
 }
 

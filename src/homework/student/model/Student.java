@@ -1,4 +1,10 @@
-package homework.student;
+package homework.student.model;
+
+import homework.student.util.DateUtil;
+
+import java.util.Date;
+
+import static homework.student.util.DateUtil.dateToString;
 
 public class Student {
     private String name;
@@ -6,7 +12,10 @@ public class Student {
     private int age;
     private String phoneNumber;
     private String city;
-    private  String lesson;
+    private  Lesson lesson;
+    private User registeredUser;
+    private Date registerDate;
+
 
     public String getName() {
         return name;
@@ -48,12 +57,28 @@ public class Student {
         this.city = city;
     }
 
-    public String getLesson() {
+    public Lesson getLesson() {
         return lesson;
     }
 
-    public void setLesson(String lesson) {
+    public void setLesson(Lesson lesson) {
         this.lesson = lesson;
+    }
+
+    public User getRegisteredUser() {
+        return registeredUser;
+    }
+
+    public void setRegisteredUser(User registeredUser) {
+        this.registeredUser = registeredUser;
+    }
+
+    public Date getRegisterDate() {
+        return registerDate;
+    }
+
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
     @Override
@@ -64,17 +89,22 @@ public class Student {
                 ", age=" + age +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", lesson='" + lesson + '\'' +
+                ", registeredUser='" + registeredUser + '\'' +
+                ", registeredDate='" + dateToString(registerDate)+ '\'' +
                 ", city='" + city + '\'' +
                 '}';
     }
 
-    public Student(String name, String surname, int age, String phoneNumber, String city,String lesson) {
+    public Student(String name, String surname, int age, String phoneNumber, String city,Lesson lesson,User registeredUser, Date registredDate) {
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.phoneNumber = phoneNumber;
         this.city = city;
         this.lesson=lesson;
+        this.registeredUser=registeredUser;
+        this.registerDate = registerDate;
+
     }
 
     public Student() {

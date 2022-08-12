@@ -1,4 +1,7 @@
-package homework.student;
+package homework.student.storage;
+
+
+import homework.student.model.Student;
 
 public class StudentStorage {
     private Student[] array = new Student[10];
@@ -16,10 +19,7 @@ public class StudentStorage {
 
     private void increaseArray() {
         Student[] temp = new Student[array.length + 10];
-        for (int i = 0; i < size; i++) {
-            temp[i] = array[i];
-
-        }
+        System.arraycopy(array, 0, temp, 0, size);
         array = temp;
     }
 
